@@ -1,0 +1,231 @@
+<body>
+  <div class="quiz-container">
+    <div id="spørgsmål-container" class="hide">
+      <div id="spørgsmål">Question</div>
+      <div id="svar-buttons" class="btn-grid">
+        <button class="btn">Answer 1</button>
+        <button class="btn">Answer 2</button>
+        <button class="btn">Answer 3</button>
+        <button class="btn">Answer 4</button>
+      </div>
+    </div>
+    <div class="controls">
+      <button id="start-btn" class="start-btn btn">Quiz</button>
+      <button id="next-btn" class="next-btn btn hide">Næste</button>
+    </div>
+  </div>
+  </body>
+
+<script>
+const startButton = document.getElementById('start-btn')
+const nextButton = document.getElementById('next-btn')
+const questionContainerElement = document.getElementById('spørgsmål-container')
+const questionElement = document.getElementById('spørgsmål')
+const answerButtonsElement = document.getElementById('svar-buttons')
+
+let shuffledQuestions, currentQuestionIndex
+
+startButton.addEventListener('click', startGame)
+nextButton.addEventListener('click', () => {
+  currentQuestionIndex++
+  setNextQuestion()
+})
+
+function startGame() {
+  startButton.classList.add('hide')
+  shuffledQuestions = questions.sort(() => Math.random() - .5)
+  currentQuestionIndex = 0
+  questionContainerElement.classList.remove('hide')
+  setNextQuestion()
+}
+
+function setNextQuestion() {
+  resetState()
+  showQuestion(shuffledQuestions[currentQuestionIndex])
+}
+
+function showQuestion(question) {
+  questionElement.innerText = question.question
+  question.answers.forEach(answer => {
+    const button = document.createElement('button')
+    button.innerText = answer.text
+    button.classList.add('btn')
+    if (answer.correct) {
+      button.dataset.correct = answer.correct
+    }
+    button.addEventListener('click', selectAnswer)
+    answerButtonsElement.appendChild(button)
+  })
+}
+
+function resetState() {
+  clearStatusClass(document.body)
+  nextButton.classList.add('hide')
+  while (answerButtonsElement.firstChild) {
+    answerButtonsElement.removeChild(answerButtonsElement.firstChild)
+  }
+}
+
+function selectAnswer(e) {
+  const selectedButton = e.target
+  const correct = selectedButton.dataset.correct
+  setStatusClass(document.body, correct)
+  Array.from(answerButtonsElement.children).forEach(button => {
+    setStatusClass(button, button.dataset.correct)
+  })
+  if (shuffledQuestions.length > currentQuestionIndex + 1) {
+    nextButton.classList.remove('hide')
+  } else {
+    startButton.innerText = 'Tag igen'
+    startButton.classList.remove('hide')
+  }
+}
+
+function setStatusClass(element, correct) {
+  clearStatusClass(element)
+  if (correct) {
+    element.classList.add('correct')
+  } else {
+    element.classList.add('wrong')
+  }
+}
+
+function clearStatusClass(element) {
+  element.classList.remove('correct')
+  element.classList.remove('wrong')
+}
+
+const questions = [
+  {
+    question: 'Hvor skal din mælkekarton hen?',
+    answers: [
+      { text: 'Rest', correct: true },
+      { text: 'Plastik', correct: false },
+      { text: 'Pap', correct: false }
+    ]
+  },
+  {
+    question: 'Hvor skal din pizzabakke hen?',
+    answers: [
+      { text: 'Rest', correct: true },
+      { text: 'Pap', correct: false },
+      { text: 'Plastik', correct: false }
+    ]
+  },
+  {
+    question: 'Hvor skal din malerbøtte hen?',
+    answers: [
+      { text: 'Plastik', correct: false },
+      { text: 'Farligt affald', correct: true },
+      { text: 'Rest', correct: false }
+    ]
+  },
+  {
+    question: 'Må du smide knust glas i glas- og flaskesortering?',
+    answers: [
+      { text: 'Nej', correct: false },
+      { text: 'Ja', correct: true }
+    ]
+  },
+   {
+    question: 'Hvor skal din flødebolle pakke hen?',
+    answers: [
+      { text: 'Plastik', correct: false },
+      { text: 'Hård plast', correct: true }
+    ]
+   },
+     {
+    question: 'Hvor skal din flødebolle pakke hen?',
+    answers: [
+      { text: 'Plastik', correct: false },
+      { text: 'Hård plast', correct: true }
+    ]
+     },
+          {
+    question: 'Hvor skal din tandbørste hen?',
+    answers: [
+      { text: 'Plastik', correct: false },
+      { text: 'Restaffald', correct: true },
+      { text: 'Hård plast', correct: false }
+    ]
+     },
+     {
+    question: 'Hvad gør man med knive eller fx en sav med plastikhåndtag?',
+    answers: [
+      { text: 'Metal', correct: true },
+      { text: 'Det deles op i hård plast og metal', correct: false },
+      { text: 'Hård plast', correct: false }
+    ]
+     }
+]
+</script>
+
+<style>
+:root {
+  --hue-neutral: 199;
+  --hue-wrong: 0;
+  --hue-correct: 145;
+}
+
+body {
+  --hue: var(--hue-neutral);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  background-color: hsl(var(--hue), 100%, 20%);
+}
+
+.quiz-container {
+  width: 500px;
+  max-width: 80%;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0 0 10px 2px;
+}
+
+.btn-grid {
+  display: grid;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.btn {
+  --hue: var(--hue-neutral);
+  border: 1px solid hsl(var(--hue), 100%, 30%);
+  background-color: hsl(var(--hue), 100%, 50%);
+  border-radius: 5px;
+  padding: 5px 10px;
+  color: white;
+  outline: none;
+}
+
+.btn:hover {
+  border-color: black;
+}
+
+.btn.correct {
+  --hue: var(--hue-correct);
+  color: black;
+}
+
+.btn.wrong {
+  --hue: var(--hue-wrong);
+}
+
+.start-btn, .next-btn {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 10px 20px;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hide {
+  display: none;
+}
+</style>
