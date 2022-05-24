@@ -23,7 +23,6 @@ const questionContainerElement = document.getElementById('spørgsmål-container'
 const questionElement = document.getElementById('spørgsmål')
 const answerButtonsElement = document.getElementById('svar-buttons')
 
-let shuffledQuestions, currentQuestionIndex
 
 startButton.addEventListener('click', startGame)
 nextButton.addEventListener('click', () => {
@@ -33,7 +32,7 @@ nextButton.addEventListener('click', () => {
 
 function startGame() {
   startButton.classList.add('hide')
-  shuffledQuestions = questions.sort(() => Math.random() - .5)
+  shuffledQuestions = questions.sort(() => Math.random() - .8)
   currentQuestionIndex = 0
   questionContainerElement.classList.remove('hide')
   setNextQuestion()
@@ -57,6 +56,7 @@ function showQuestion(question) {
     answerButtonsElement.appendChild(button)
   })
 }
+
 
 function resetState() {
   clearStatusClass(document.body)
@@ -97,27 +97,24 @@ function clearStatusClass(element) {
 
 const questions = [
   {
-    question: 'Hvor skal din mælkekarton hen?',
+    question: 'Hvor skal din avis hen?',
     answers: [
-      { text: 'Rest', correct: true },
-      { text: 'Plastik', correct: false },
+      { text: 'Papir', correct: true },
       { text: 'Pap', correct: false }
     ]
   },
   {
-    question: 'Hvor skal din pizzabakke hen?',
+    question: 'Hvor skal din nettopose hen?',
     answers: [
-      { text: 'Rest', correct: true },
-      { text: 'Pap', correct: false },
-      { text: 'Plastik', correct: false }
+      { text: 'plastik', correct: true },
+      { text: 'Hård plast', correct: false }
     ]
   },
   {
-    question: 'Hvor skal din malerbøtte hen?',
+    question: 'Hvad er huskereglen for hård plast?',
     answers: [
-      { text: 'Plastik', correct: false },
-      { text: 'Farligt affald', correct: true },
-      { text: 'Rest', correct: false }
+      { text: 'Man kan slå knude på det', correct: false },
+      { text: 'Man kan tromme på det', correct: true }
     ]
   },
   {
@@ -135,10 +132,10 @@ const questions = [
     ]
    },
      {
-    question: 'Hvor skal din flødebolle pakke hen?',
+    question: 'Må din mobiloplader komme i metal?',
     answers: [
-      { text: 'Plastik', correct: false },
-      { text: 'Hård plast', correct: true }
+      { text: 'Nej', correct: false },
+      { text: 'Ja', correct: true }
     ]
      },
           {
@@ -156,32 +153,32 @@ const questions = [
       { text: 'Det deles op i hård plast og metal', correct: false },
       { text: 'Hård plast', correct: false }
     ]
+     },
+     {
+    question: 'Hvad med dit brugte stykke køkkenrulle?',
+    answers: [
+      { text: 'Madaffald', correct: true },
+      { text: 'Papir', correct: false },
+      { text: 'Pap', correct: false }
+    ]
      }
 ]
 </script>
 
 <style>
 :root {
-  --hue-neutral: 199;
+  --hue-neutral: 120;
   --hue-wrong: 0;
   --hue-correct: 145;
 }
 
 body {
   --hue: var(--hue-neutral);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  background-color: hsl(var(--hue), 100%, 20%);
 }
 
 .quiz-container {
   width: 500px;
   max-width: 80%;
-  border-radius: 5px;
-  padding: 10px;
-  box-shadow: 0 0 10px 2px;
 }
 
 .btn-grid {
@@ -192,8 +189,8 @@ body {
 
 .btn {
   --hue: var(--hue-neutral);
-  border: 1px solid hsl(var(--hue), 100%, 30%);
-  background-color: hsl(var(--hue), 100%, 50%);
+  border: 1px solid hsl(var(--hue), 100%, 20%);
+  background-color: hsl(var(--hue), 100%, 28%);
   border-radius: 5px;
   padding: 5px 10px;
   color: white;
